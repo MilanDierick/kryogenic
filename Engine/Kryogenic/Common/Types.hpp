@@ -33,4 +33,32 @@ static_assert(4 == sizeof(f32), "f32 is not 4 bytes");
 static_assert(8 == sizeof(f64), "f64 is not 8 bytes");
 static_assert(1 == sizeof(b8), "b8 is not 1 byte");
 static_assert(4 == sizeof(b32), "b32 is not 4 bytes");
+
+using string  = std::string;
+using stringv = std::string_view;
+using cstring = char const* const;
+
+#include <glm/glm.hpp>
+
+using vec1  = glm::vec<1, f32>;
+using vec2  = glm::vec<2, f32>;
+using vec3  = glm::vec<3, f32>;
+using vec4  = glm::vec<4, f32>;
+using ivec1 = glm::vec<1, i32>;
+using ivec2 = glm::vec<2, i32>;
+using ivec3 = glm::vec<3, i32>;
+using ivec4 = glm::vec<4, i32>;
+using uvec1 = glm::vec<1, u32>;
+using uvec2 = glm::vec<2, u32>;
+using uvec3 = glm::vec<3, u32>;
+using uvec4 = glm::vec<4, u32>;
+using fvec1 = glm::vec<1, f32>;
+using fvec2 = glm::vec<2, f32>;
+using fvec3 = glm::vec<3, f32>;
+using fvec4 = glm::vec<4, f32>;
+using dvec1 = glm::vec<1, f64>;
+using dvec2 = glm::vec<2, f64>;
+using dvec3 = glm::vec<3, f64>;
+using dvec4 = glm::vec<4, f64>;
+
 #endif //KRYOGENIC_COMMON_TYPES_HPP

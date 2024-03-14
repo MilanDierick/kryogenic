@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.5)
 project(kryogenic.engine LANGUAGES CXX)
 
+find_package(GLM REQUIRED)
 find_package(SDL2 REQUIRED)
 find_package(SDL2_image REQUIRED)
 find_package(spdlog REQUIRED)
@@ -21,12 +22,13 @@ set_target_properties(kryogenic.engine PROPERTIES
 target_include_directories(kryogenic.engine PUBLIC
         ${SDL2_INCLUDE_DIRS}
         ${SDL2_IMAGE_INCLUDE_DIRS}
+        ${GLM_INCLUDE_DIRS}
         "."
 )
 
 target_link_libraries(kryogenic.engine
         ${SDL2_LIBRARIES}
-        ${SDL2_IMAGE_LIBRARIES}
+        SDL2_image::SDL2_image
         spdlog::spdlog
 )
 
