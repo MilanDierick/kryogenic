@@ -1,53 +1,67 @@
 #ifndef KRYOGENIC_ECS_SPARSE_SET_HPP
 #define KRYOGENIC_ECS_SPARSE_SET_HPP
 
-#include <limits>
+#include <vector>
 
 #include "Kryogenic/Common/Types.hpp"
 #include "Kryogenic/Ecs/Entity.hpp"
 
-namespace Kryogenic {
-	struct EcsSparseSet final {
-		constexpr static auto kNullEnt = std::numeric_limits<Entity>::max();
+namespace Kryogenic::Ecs {
+	class SparseSet final {
+	public:
+		SparseSet() noexcept  = default;
+		~SparseSet() noexcept = default;
 
-		Entity* Sparse    = {};
-		usize   SparseCap = {};
+		SparseSet(SparseSet const& pOther)                        = default;
+		SparseSet(SparseSet&& pOther) noexcept                    = default;
+		auto operator=(SparseSet const& pOther) -> SparseSet&     = default;
+		auto operator=(SparseSet&& pOther) noexcept -> SparseSet& = default;
 
-		byte* Dense         = {};
-		usize DenseCap      = {};
-		usize DenseSize     = {};
-		u8    DenseElemSize = {};
+		auto Insert(u64 const pIndex, u64 const pValue) -> void {
+			if (pIndex >= mSparse.size()) {
+				mSparse.resize(pIndex + 1, kInvalidEntity);
+			}
 
-		EcsSparseSet() noexcept = default;
-		~EcsSparseSet() noexcept;
+			mSparse[pIndex] = mDense.size();
+			mDense.push_back(pValue);
+		}
 
-		explicit EcsSparseSet(u8 pDenseElemSize) noexcept;
+		auto Remove(u64 const pIndex) -> void {
+			auto const denseIndex = mSparse[pIndex];
+			mSparse[pIndex]       = kInvalidEntity;
+			mDense[denseIndex]    = mDense.back();
+			mDense.pop_back();
+		}
 
-		[[nodiscard]] auto size() const -> usize;
-		[[nodiscard]] auto Empty() const -> b8;
+		auto Clear() -> void {
+			mSparse.clear();
+			mDense.clear();
+		}
 
-		auto Clear() -> void;
-		auto Trim() -> void;
+		[[nodiscard]] auto Size() const -> usize {
+			return mDense.size();
+		}
 
-		[[nodiscard]] auto Contains(Entity pEntity) const -> b8;
+		[[nodiscard]] auto Get(u64 const pIndex) const -> u64 {
+			if (pIndex >= mSparse.size()) {
+				return kInvalidEntity;
+			}
 
-		auto ResizeSparse(usize pSize) -> void;
-		auto ResizeDense(usize pSize) -> void;
+			return mSparse[pIndex];
+		}
 
-		auto Insert(Entity pEntity, void const* pData) -> b8;
-		auto Remove(Entity pEnt) -> b8;
+		[[nodiscard]] auto GetSparse() const -> std::vector<u64> const& {
+			return mSparse;
+		}
 
-		[[nodiscard]] auto Get(Entity pEntity) const -> byte*;
+		[[nodiscard]] auto GetDense() const -> std::vector<u64> const& {
+			return mDense;
+		}
 
-		[[nodiscard]] auto begin() const -> byte*;
-		[[nodiscard]] auto end() const -> byte*;
-		[[nodiscard]] auto cbegin() const -> byte const*;
-		[[nodiscard]] auto cend() const -> byte const*;
-		[[nodiscard]] auto rbegin() const -> byte*;
-		[[nodiscard]] auto rend() const -> byte*;
-		[[nodiscard]] auto crbegin() const -> byte const*;
-		[[nodiscard]] auto crend() const -> byte const*;
+	private:
+		std::vector<u64> mSparse = {};
+		std::vector<u64> mDense  = {};
 	};
-} // kryogenic
+} // Kryogenic
 
 #endif //KRYOGENIC_ECS_SPARSE_SET_HPP

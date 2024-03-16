@@ -1,17 +1,17 @@
 #ifndef KRYOGENIC_ECS_COMPONENTS_SPRITE_HPP
 #define KRYOGENIC_ECS_COMPONENTS_SPRITE_HPP
 
-#include "Kryogenic/Graphics/Texture.hpp"
+#include "Kryogenic/Base/Resource.hpp"
 
 namespace Kryogenic {
 	struct Sprite final {
-		Texture Tex = {};
+		ResourceHandle Texture = {};
 
-		Sprite() noexcept  = default;
+		Sprite() noexcept  = delete;
 		~Sprite() noexcept = default;
 
-		explicit Sprite(Texture const pTexture) noexcept
-			: Tex(pTexture) {
+		explicit Sprite(ResourceHandle const pTexture) noexcept
+			: Texture(pTexture) {
 		}
 	};
 } // kryogenic

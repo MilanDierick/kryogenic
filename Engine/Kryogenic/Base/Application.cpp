@@ -1,29 +1,28 @@
 #include "Application.hpp"
 
 #include "Kryogenic/Base/Window.hpp"
-#include "Kryogenic/Ecs/Registry.hpp"
+#include "Kryogenic/Ecs/EcsRegistry.hpp"
+#include "Kryogenic/Graphics/RenderContext.hpp"
 #include "Kryogenic/Graphics/Renderer.hpp"
-#include "Kryogenic/Graphics/TextureManager.hpp"
 
 namespace Kryogenic {
 	namespace {
 		Application* gInstance = nullptr;
 	} // <anonymous>
-}     // kryogenic
+}     // Kryogenic
 
 namespace Kryogenic {
 	Application::Application() noexcept {
 		gInstance = this;
 
 		mWindow      = std::make_unique<Window>("Kryogenic", 800, 600);
-		mEcs         = std::make_unique<EcsRegistry>();
 		mRenderer    = std::make_unique<Renderer>();
-		mTextureMngr = std::make_unique<TextureManager>();
+		mEcsRegistry = std::make_unique<Ecs::Registry>();
+		mRenderCtx   = std::make_unique<RenderContext>();
 	}
 
 	Application::~Application() noexcept {
 		mRenderer.reset();
-		mEcs.reset();
 		mWindow.reset();
 	}
 
@@ -45,15 +44,15 @@ namespace Kryogenic {
 		return *mWindow;
 	}
 
-	auto Application::GetEcs() const -> EcsRegistry& {
-		return *mEcs;
-	}
-
 	auto Application::GetRenderer() const -> Renderer& {
 		return *mRenderer;
 	}
 
-	auto Application::GetTextureMngr() const -> TextureManager& {
-		return *mTextureMngr;
+	auto Application::GetEcsRegistry() const -> Ecs::Registry& {
+		return *mEcsRegistry;
 	}
-} // kryogenic
+
+	auto Application::GetRenderContext() const -> RenderContext& {
+		return *mRenderCtx;
+	}
+} // Kryogenic

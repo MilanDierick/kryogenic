@@ -4,11 +4,15 @@
 #include <memory>
 
 namespace Kryogenic {
+	namespace Ecs {
+		class Registry;
+	} // Ecs
+
 	class EcsRegistry;
+	class RenderContext;
 	class Renderer;
-	class TextureManager;
 	class Window;
-} // kryogenic
+} // Kryogenic
 
 namespace Kryogenic {
 	class Application {
@@ -27,15 +31,15 @@ namespace Kryogenic {
 		auto Shutdown() -> void;
 
 		[[nodiscard]] auto GetWindow() const -> Window&;
-		[[nodiscard]] auto GetEcs() const -> EcsRegistry&;
 		[[nodiscard]] auto GetRenderer() const -> Renderer&;
-		[[nodiscard]] auto GetTextureMngr() const -> TextureManager&;
+		[[nodiscard]] auto GetEcsRegistry() const -> Ecs::Registry&;
+		[[nodiscard]] auto GetRenderContext() const -> RenderContext&;
 
 	private:
-		std::unique_ptr<Window>         mWindow      = {};
-		std::unique_ptr<EcsRegistry>    mEcs         = {};
-		std::unique_ptr<Renderer>       mRenderer    = {};
-		std::unique_ptr<TextureManager> mTextureMngr = {};
+		std::unique_ptr<Window>        mWindow      = {};
+		std::unique_ptr<Renderer>      mRenderer    = {};
+		std::unique_ptr<Ecs::Registry> mEcsRegistry = {};
+		std::unique_ptr<RenderContext> mRenderCtx   = {};
 	};
 
 	[[nodiscard]] auto CreateApplication() -> std::unique_ptr<Application>;

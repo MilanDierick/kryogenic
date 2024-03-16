@@ -19,9 +19,9 @@ namespace Kryogenic {
 		}
 
 		explicit Transform(fvec3 const& pPosition, fvec3 const& pRotation, fvec3 const& pScale) noexcept
-			: Position{pPosition}
-			, Rotation{pRotation}
-			, Scale{pScale} {
+			: Position(pPosition)
+			, Rotation(pRotation)
+			, Scale(pScale) {
 		}
 	};
 } // kryogenic

@@ -4,6 +4,7 @@
 #include <format>
 #include <memory>
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 #include <spdlog/spdlog.h>
 #include <spdlog/sinks/stdout_color_sinks-inl.h>
 

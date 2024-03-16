@@ -2,10 +2,6 @@
 
 #include "Kryogenic/Base/Application.hpp"
 #include "Kryogenic/Base/Window.hpp"
-#include "Kryogenic/Ecs/Registry.hpp"
-#include "Kryogenic/Ecs/Components/Sprite.hpp"
-#include "Kryogenic/Ecs/Components/Transform.hpp"
-#include "Kryogenic/Graphics/TextureManager.hpp"
 
 namespace Kryogenic {
 	Renderer::Renderer() noexcept {
@@ -30,19 +26,5 @@ namespace Kryogenic {
 	}
 
 	auto Renderer::RenderTextures() -> void {
-		auto const& application = Application::Instance();
-		auto&       registry    = application.GetEcs();
-
-		registry.ForEach<Transform, Sprite>([&, this](auto, auto& pTransform, auto& pSprite) {
-			auto const texture = registry.GetComponent<TextureWrapped>(pSprite.Tex);
-
-			SDL_Rect dest;
-			dest.x = static_cast<i32>(pTransform.Position.x);
-			dest.y = static_cast<i32>(pTransform.Position.y);
-			dest.w = static_cast<i32>(pTransform.Scale.x);
-			dest.h = static_cast<i32>(pTransform.Scale.y);
-
-			SDL_RenderCopy(mNative, texture->Native, nullptr, &dest);
-		});
 	}
 } // kryogenic
